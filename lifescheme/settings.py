@@ -29,6 +29,7 @@ SECRET_KEY = os.environ.get('LIFESCHEME_SECRET_KEY')
 # to `True`. However, in a production environment, the environment variable
 # should not be set.
 DEBUG = bool(os.environ.get('LIFESCHEME_DEV_ENV'))
+SECURE_SSL_REDIRECT = not DEBUG
 
 ALLOWED_HOSTS = ['lifescheme.herokuapp.com']
 
