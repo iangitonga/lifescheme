@@ -1,0 +1,9 @@
+{% if messages %}
+  <div class="form__msg-wrapper form__msg-wrapper--success">
+    <div>
+      {% for message in messages %}
+        <span>{{ message }}</span>
+      {% endfor %}
+    </div>
+  </div>
+{% endif %}

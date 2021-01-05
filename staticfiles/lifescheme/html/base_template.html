@@ -1,0 +1,162 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="author" content="Ian Gitonga(iangitonga11@gmail.com)">
+  <meta name="viewport" content="width=device-width initial-scale=1 shrink-to-fit=no">
+  <title>{% block SITE_TITLE_TEXT %}{% endblock SITE_TITLE_TEXT %} | Lifescheme</title>
+  <link href="{% static 'lifescheme/css/main.css' %}" rel="stylesheet" type="text/css">
+  {% block HEAD_EXTRA %}{% endblock HEAD_EXTRA %}
+</head>
+<body>
+<nav>
+  <div class="navs-wrapper">
+    <nav class="topnav">
+      <button class="topnav__sidenav-btn js-sidenav-launcher">
+        <svg class="topnav__sidenav-launcher__icon" xmlns="http://www.w3.org/2000/svg"
+             viewBox="0 0 384 384" height="30px" width="30px">
+          <g>
+            <rect x="0" y="277.333" width="384" height="42.667"></rect>
+            <rect x="0" y="170.667" width="384" height="42.667"></rect>
+            <rect x="0" y="64" width="384" height="42.667"></rect>
+          </g>
+        </svg>
+      </button>
+      <a class="topnav__brand" href="/">Lifescheme</a>
+      <div class="topnav__links">
+        <div class="topnav__links__left">
+          <a class="topnav__links__link" href="/">Home</a>
+        </div>
+        <div class="topnav__links__right">
+          {% if user.is_authenticated %}
+            <a class="topnav__links__link topnav__links__link--disabled">{{ user.username }}</a>
+            <a class="topnav__links__link" href="{% url 'accounts:user-signout' %}">Sign out</a>
+          {% else %}
+            <a class="topnav__links__link" href="{% url 'accounts:user-signin' %}">Sign in</a>
+            <a class="topnav__links__link" href="{% url 'accounts:user-signup' %}">Register</a>
+          {% endif %}
+        </div>
+      </div>
+    </nav>
+    <div class="sidenav-wrapper">
+      <nav class="sidenav">
+        <section class="sidenav__header">
+          <button class="sidenav__header__close-btn js-sidenav-close-btn">
+            <svg class="sidenav__header__close-btn__icon" xmlns="http://www.w3.org/2000/svg"
+                 viewBox="0 0 409.806 409.806" xml:space="preserve" height="20px" width="20px">
+              <path d="M228.929,205.01L404.596,29.343c6.78-6.548,6.968-17.352,0.42-24.132c-6.548-6.78-17.352-6.968-24.132-0.42
+                c-0.142,0.137-0.282,0.277-0.42,0.42L204.796,180.878L29.129,5.21c-6.78-6.548-17.584-6.36-24.132,0.42
+                c-6.388,6.614-6.388,17.099,0,23.713L180.664,205.01L4.997,380.677c-6.663,6.664-6.663,17.468,0,24.132
+                c6.664,6.662,17.468,6.662,24.132,0l175.667-175.667l175.667,175.667c6.78,6.548,17.584,6.36,24.132-0.42
+                c6.387-6.614,6.387-17.099,0-23.712L228.929,205.01z">
+              </path>
+            </svg>
+          </button>
+          <a class="sidenav__header__brand" href="/">Lifescheme</a>
+        </section>
+        <section class="sidenav__links">
+          <a class="sidenav__links__link" href="/">Home</a>
+          {% if user.is_authenticated %}
+            <a class="sidenav__links__link" href="{% url 'accounts:user-signout' %}">Sign out</a>
+          {% else %}
+            <a class="sidenav__links__link" href="{% url 'accounts:user-signin' %}">Sign in</a>
+            <a class="sidenav__links__link" href="{% url 'accounts:user-signup' %}">Register</a>
+          {% endif %}
+        </section>
+      </nav>
+    </div>
+  </div>
+</nav>
+<main>
+  {% block MAIN %}
+    <div class="main-content">
+      {% block MAIN_CONTENT %}{% endblock MAIN_CONTENT %}
+    </div>
+  {% endblock MAIN %}
+</main>
+<footer class="footer">
+  <span class="footer__content">{% now "Y" %} Lifescheme</span>
+</footer>
+<script>
+  /** Allows sidenav toggler to work in mobile and tablets. */
+  const sidenavLauncher = document.querySelector('.js-sidenav-launcher');
+  const sidenavWrapper = document.querySelector('.sidenav-wrapper');
+  const body = document.querySelector('.body');
+  sidenavLauncher.addEventListener('click', () => {
+    sidenavWrapper.classList.add('sidenav-wrapper--shown');
+    body.classList.add('body--modal-open');
+  });
+
+  sidenavWrapper.addEventListener('click', (event) => {
+    // The click event will only be delegated to the sidebar wrapper if the
+    // click was not on the sidebar element. Thus we can close the sidebar
+    // wrapper if the click did not occur in the sidebar.
+
+    // noinspection JSUnresolvedVariable
+      if (event.target.classList.contains('sidenav-wrapper')) {
+        sidenavWrapper.classList.remove('sidenav-wrapper--shown');
+        body.classList.remove('body--modal-open');
+    }
+  });
+
+  const sidenavCloseBtn = document.querySelector('.js-sidenav-close-btn');
+  sidenavCloseBtn.addEventListener('click', () => {
+    sidenavWrapper.classList.remove('sidenav-wrapper--shown');
+    body.classList.remove('body--modal-open');
+  });
+</script>
+<script>
+  /** Adds the necessary classes to form inputs. */
+  const inputs = document.querySelectorAll('input');
+  inputs.forEach((input) => {
+      input.classList.add('form__input');
+      if (input.type === 'password') {
+          input.setAttribute('spellcheck', 'false');
+          input.classList.add('form__input--password');
+          input.classList.add('js-password-input');
+      }
+  });
+  const select_inputs = document.querySelectorAll('select');
+  select_inputs.forEach((select_input) => {
+      select_input.classList.add('form__select');
+  });
+</script>
+<script>
+  /** Enables icon changes in the password toggler. */
+  const passwordToggler = document.querySelector('.js-password-toggler');
+
+  if (passwordToggler) {
+      const passwordInputTogglerIconHidePath =
+          'M19.604 2.562l-3.346 3.137c-1.27-.428-2.686-.699-4.243-.699-7.569 0-12.015 6.551-12.015 6.551s1.928 2.951 5.146 5.138l-2.911 2.909 1.414 1.414 17.37-17.035-1.415-1.415zm-6.016 5.779c-3.288-1.453-6.681 1.908-5.265 5.206l-1.726 1.707c-1.814-1.16-3.225-2.65-4.06-3.66 1.493-1.648 4.817-4.594 9.478-4.594.927 0 1.796.119 2.61.315l-1.037 1.026zm-2.883 7.431l5.09-4.993c1.017 3.111-2.003 6.067-5.09 4.993zm13.295-4.221s-4.252 7.449-11.985 7.449c-1.379 0-2.662-.291-3.851-.737l1.614-1.583c.715.193 1.458.32 2.237.32 4.791 0 8.104-3.527 9.504-5.364-.729-.822-1.956-1.99-3.587-2.952l1.489-1.46c2.982 1.9 4.579 4.327 4.579 4.327z';
+      const passwordInputTogglerIconShowPath =
+          'M12.015 7c4.751 0 8.063 3.012 9.504 4.636-1.401 1.837-4.713 5.364-9.504 5.364-4.42 0-7.93-3.536-9.478-5.407 1.493-1.647 4.817-4.593 9.478-4.593zm0-2c-7.569 0-12.015 6.551-12.015 6.551s4.835 7.449 12.015 7.449c7.733 0 11.985-7.449 11.985-7.449s-4.291-6.551-11.985-6.551zm-.015 3c-2.209 0-4 1.792-4 4 0 2.209 1.791 4 4 4s4-1.791 4-4c0-2.208-1.791-4-4-4z';
+      passwordToggler.addEventListener('click', () => {
+          passwordToggler.previousElementSibling.focus();
+          if (passwordToggler.dataset.state === 'shown') {
+              passwordToggler.previousElementSibling.setAttribute('type', 'password');
+              passwordToggler.querySelector('path').setAttribute('d', passwordInputTogglerIconShowPath);
+              passwordToggler.dataset.state = 'hidden';
+          } else {
+              passwordToggler.previousElementSibling.setAttribute('type', 'text');
+              passwordToggler.querySelector('path').setAttribute('d', passwordInputTogglerIconHidePath);
+              passwordToggler.dataset.state = 'shown';
+          }
+      });
+  }
+
+  const passwordInput = document.querySelector('.js-password-input');
+  if (passwordInput) {
+      passwordInput.addEventListener('focusin', () => {
+          passwordInput.parentElement.classList.add('form__input--password-wrapper--focused');
+      });
+
+      passwordInput.addEventListener('focusout', () => {
+          passwordInput.parentElement.classList.remove('form__input--password-wrapper--focused');
+      });
+  }
+</script>
+{% block JS_EXTRA %}{% endblock JS_EXTRA %}
+</body>
+</html>

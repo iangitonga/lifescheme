@@ -1,0 +1,73 @@
+{% extends 'lifescheme/html/base_template.html' %}
+
+{% block SITE_TITLE_TEXT %}Sign in{% endblock SITE_TITLE_TEXT %}
+
+{% block HEAD_EXTRA %}
+  <style>
+    .content-wrapper {
+      padding: 30px 15px 0 15px;
+    }
+
+    @media(min-width: 768px) {
+      .content-wrapper {
+        align-items: center;
+        display: flex;
+        flex-flow: column nowrap;
+        padding: 50px 0 0 0;
+      }
+    }
+  </style>
+{% endblock HEAD_EXTRA %}
+
+{% block MAIN_CONTENT %}
+  <div class="content-wrapper">
+    <form action="" class="form" method="POST">
+      {% csrf_token %}
+      <header class="form__header">
+        <h3 class="form__heading">Sign in</h3>
+      </header>
+      {% include 'accounts/message_plugin.html' %}
+      <div class="form__body">
+        <div class="form__input-group">
+          <label class="form__input-label">{{ form.username.label }}</label>
+          {{ form.username }}
+        </div>
+        <div class="form__input-group">
+          <label class="form__input-label" for="{{ form.password.id_for_label }}">
+            {{ form.password.label }}
+          </label>
+          <div class="form__input--password-wrapper">
+            {{ form.password }}
+            <button class="form__input--password-toggler js-password-toggler" type="button" data-state="hidden">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                   class="form__input--password-toggler-icon">
+                <path d="M12.015 7c4.751 0 8.063 3.012 9.504 4.636-1.401 1.837-4.713 5.364-9.504 5.364-4.42 0-7.93-3.536-9.478-5.407 1.493-1.647 4.817-4.593 9.478-4.593zm0-2c-7.569 0-12.015 6.551-12.015 6.551s4.835 7.449 12.015 7.449c7.733 0 11.985-7.449 11.985-7.449s-4.291-6.551-11.985-6.551zm-.015 3c-2.209 0-4 1.792-4 4 0 2.209 1.791 4 4 4s4-1.791 4-4c0-2.208-1.791-4-4-4z">
+                </path>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div>
+          <button class="btn form__submit-btn" type="submit">
+            Sign in
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+{% endblock MAIN_CONTENT %}
+
+{% block JS_EXTRA %}
+  {% if form.errors %}
+    <script>
+      usernameInput = document.getElementById('id_username');
+      usernameInput.classList.add('form__input--error');
+      const errorDiv = document.createElement('div');
+      errorDiv.classList.add('form__input-error-wrapper');
+      const errorSpan = document.createElement('span');
+      errorSpan.textContent = 'Please enter a correct username and password.';
+      errorDiv.appendChild(errorSpan);
+      usernameInput.parentElement.appendChild(errorDiv);
+    </script>
+  {% endif %}
+{% endblock JS_EXTRA %}
