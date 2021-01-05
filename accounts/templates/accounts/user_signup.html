@@ -27,6 +27,13 @@
         <h3 class="form__heading">Create an account</h3>
       </header>
       {% include 'accounts/message_plugin.html' %}
+      {% if ERROR %}
+        <div class="form__msg-wrapper form__msg-wrapper--error">
+          <div>
+            <span>An error occurred. Please try again.</span>
+          </div>
+        </div>
+      {% endif %}
       <div class="form__body">
         <div class="form__input-group">
           <label class="form__input-label">{{ USER_CREATION_FORM.username.label }}</label>
