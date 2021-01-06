@@ -18,6 +18,7 @@ from django import urls
 
 
 urlpatterns = [
+    urls.path('', urls.include('scheduler.urls')),
     urls.path('', urls.include('accounts.urls')),
     urls.path('admin/', admin.site.urls),
 ]

@@ -1,0 +1,30 @@
+{% extends 'lifescheme/html/base_template.html' %}
+
+{% block SITE_TITLE_TEXT %}Landing{% endblock SITE_TITLE_TEXT %}
+
+{% block HEAD_EXTRA %}
+<style>
+  .landing {
+    align-items: center;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+  }
+
+  .landing-text {
+    font-size: 1.3rem;
+  }
+</style>
+{% endblock HEAD_EXTRA %}
+
+{% block MAIN_CONTENT %}
+  <div class="landing">
+    <header>
+      <h1>Welcome to Lifescheme</h1>
+    </header>
+    <div class="landing-text">
+      <a href="{% url 'accounts:user-signin' %}">Sign in</a> or
+      <a href="{% url 'accounts:user-signin' %}">sign up</a> to create your schedule.
+    </div>
+  </div>
+{% endblock MAIN_CONTENT %}

@@ -24,6 +24,11 @@
 
 html {
   height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 svg,
@@ -226,6 +231,7 @@ main {
   flex: 0 0 auto;
   flex-flow: row nowrap;
   height: 60px;
+  margin: 60px 0 0 0;
   justify-content: center;
 }
 
@@ -449,6 +455,6 @@ main {
 @media(min-width: 1025px) {
   .btn:hover {
     background-color: #00009a;
-    box-shadow: 0 1px 8px 2px rgba(0, 0, 0, .6);
+    box-shadow: 0 2px 4px -1px rgba(0,0,0,0.2), 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12);
   }
 }

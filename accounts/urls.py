@@ -5,12 +5,7 @@ from . import views as acc_views
 app_name = 'accounts'
 
 
-def home(request):
-    return shortcuts.render(request, 'accounts/homepage.html')
-
-
 urlpatterns = [
-    urls.path('', home),
     urls.path('signin/', acc_views.UserSigninView.as_view(), name='user-signin'),
     urls.path('signout/', acc_views.UserSignoutView.as_view(), name='user-signout'),
     urls.path('signup/', acc_views.UserSignupView.as_view(), name='user-signup'),

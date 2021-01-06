@@ -1,0 +1,40 @@
+{% extends 'lifescheme/html/base_template.html' %}
+
+{% load static %}
+
+{% block SITE_TITLE_TEXT %}Home{% endblock SITE_TITLE_TEXT %}
+
+{% block HEAD_EXTRA %}
+  <link rel="stylesheet" href="{% static 'scheduler/css/main.0bafcf87.chunk.css' %}">
+  <style>
+    .main-container {
+      align-items: center;
+      display: flex;
+      flex-flow: column nowrap;
+      padding: 30px 10px;
+    }
+
+    @media (min-width: 768px) {
+      .main-container {
+        padding: 30px;
+      }
+    }
+
+    @media (min-width: 992px) {
+      .main-container {
+        padding: 60px 30px;
+      }
+    }
+  </style>
+{% endblock HEAD_EXTRA %}
+
+{% block MAIN %}
+  <div id="root" class="main-container"></div>
+{% endblock MAIN %}
+
+{% block JS_EXTRA %}
+  <script src="{% static 'scheduler/js/2.64e784ef.chunk.js' %}"></script>
+  <script src="{% static 'scheduler/js/3.3fdc493b.chunk.js' %}"></script>
+  <script src="{% static 'scheduler/js/main.62b66410.chunk.js' %}"></script>
+  <script src="{% static 'scheduler/js/runtime-main.e56606d0.js' %}"></script>
+{% endblock JS_EXTRA %}

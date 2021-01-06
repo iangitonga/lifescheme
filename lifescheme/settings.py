@@ -35,7 +35,6 @@ ALLOWED_HOSTS = ['lifescheme.herokuapp.com']
 
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -44,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'accounts.apps.AccountsConfig',
+    'scheduler.apps.SchedulerConfig',
 ]
 
 MIDDLEWARE = [
