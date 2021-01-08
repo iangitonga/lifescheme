@@ -15,7 +15,7 @@ class BaseView(django_views.View):
     will be returned to the client.
 
     Notes:
-        This class is not meant to be instantiated itself.
+        This class is not meant to be instantiated.
     """
 
     def get(self, request, *args, **kwargs):
@@ -56,14 +56,6 @@ class TaskCreationView(BaseView):
     This view only accepts POST requests.
     """
     def post(self, request, *args, **kwargs):
-        # if not (1 % 1):
-        #     s_dict = {
-        #         'taskId': 0,
-        #         'taskStartTime': request.POST['start_time'],
-        #         'taskEndTime': request.POST['end_time'],
-        #         'taskDesc': request.POST['task_desc'],
-        #     }
-        #     return http.JsonResponse(s_dict)
         filled_task_form = kernel_forms.TaskCreateForm(request.POST)
         filled_task_form.instance.schedule = request.user.dayschedules.current_schedule
         if filled_task_form.is_valid():
@@ -84,14 +76,6 @@ class TaskUpdateView(BaseView):
     This view only accepts POST requests.
     """
     def post(self, request, *args, **kwargs):
-        # if not (1 % 1):
-        #     s_dict = {
-        #         'taskId': 0,
-        #         'taskStartTime': request.POST['start_time'],
-        #         'taskEndTime': request.POST['end_time'],
-        #         'taskDesc': request.POST['task_desc'],
-        #     }
-        #     return http.JsonResponse(s_dict)
         task_id = int(request.POST.get('task_id'))
         try:
             task_obj = request.user.dayschedules.current_schedule.tasks.get(id=task_id)
@@ -116,11 +100,6 @@ class TaskDeleteView(BaseView):
     This view only accepts POST requests.
     """
     def post(self, request, *args, **kwargs):
-        # if not (1 % 1):
-        #     data = {
-        #         'taskId': 0,
-        #     }
-        #     return http.JsonResponse(data)
         task_id = int(request.POST.get('task_id'))
         try:
             task_obj = request.user.dayschedules.current_schedule.tasks.get(id=task_id)
@@ -138,10 +117,6 @@ class TaskStatusUpdateView(BaseView):
     This view only accepts POST requests.
     """
     def post(self, request, *args, **kwargs):
-        # if not (1 % 1):
-        #     return http.JsonResponse({
-        #         'task_id': 0,
-        #     })
         task_id = int(request.POST.get('task_id'))
         try:
             task_obj = request.user.dayschedules.current_schedule.tasks.get(id=task_id)
