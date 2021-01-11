@@ -27,14 +27,16 @@ const getCookie = (name) => {
  * @param data an object containing the payload to be sent to the
  * endpoint.
  *
- * @param successCbc a function that accepts one argument to be called with the
- * response data when the request status response is 200.
+ * @param successCbc an optional function that accepts one argument to be
+ * called with the response data when the response status is 200.
  *
- * @param errorCbc a function that accepts one argument to be called with the
- * response data when the request status response is 400 and has form errors.
+ * @param errorCbc an optional function that accepts one argument to be called
+ * with the response data when the response status is 400 and the response data
+ * contains form errors.
  *
- * @param failureCbc a function that accepts no argument to be called when the
- * response neither is 200 nor has form errors.
+ * @param failureCbc an optional function that accepts no argument to be called
+ * when the response status is not 200 and the response data contain no form
+ * errors.
  *
  * @param postSendCbc an optional function that accepts no arguments to be
  * called after the data has been sent and response received. This callback
@@ -64,20 +66,24 @@ const post = (endpoint, data, successCbc, errorCbc, failureCbc, postSendCbc) => 
             postSendCbc();
         if (response.status === 200) {
             response.json().then((jsonResponse) => {
-                successCbc(jsonResponse);
+                if (successCbc)
+                    successCbc(jsonResponse);
             });
         }
         else {
             response.json().then(jsonResponse => {
                 if (response.status === 400 && jsonResponse['FORM_ERRORS']) {
-                    errorCbc(jsonResponse['FORM_ERRORS']);
+                    if (errorCbc)
+                        errorCbc(jsonResponse['FORM_ERRORS']);
                 } else {
                     console.log(`Error: ${jsonResponse}`);
-                    failureCbc();
+                    if (failureCbc)
+                        failureCbc();
                 }
             }).catch((error) => {
                 console.log(`Error: ${error}`);
-                failureCbc();
+                if (failureCbc)
+                    failureCbc();
             });
         }
     })
@@ -85,7 +91,8 @@ const post = (endpoint, data, successCbc, errorCbc, failureCbc, postSendCbc) => 
         if (postSendCbc)
             postSendCbc();
         console.log(`Error: ${error}`);
-        failureCbc();
+        if (failureCbc)
+            failureCbc();
     });
 };
 

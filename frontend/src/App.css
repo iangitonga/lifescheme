@@ -345,8 +345,7 @@
   }
 }
 
-/* TODO: Remove me. */
-.main-container {
+.content {
   align-items: center;
   display: flex;
   flex-flow: column nowrap;
@@ -354,13 +353,13 @@
 }
 
 @media (min-width: 768px) {
-  .main-container {
+  .content {
     padding: 30px;
   }
 }
 
 @media (min-width: 992px) {
-  .main-container {
+  .content {
     padding: 60px 30px;
   }
 }
@@ -422,6 +421,10 @@
 
 .table__cell {
   padding: 10px 5px;
+}
+
+.table__cell--task--completed {
+  text-decoration: line-through;
 }
 
 .table__cell--status {
@@ -573,7 +576,7 @@
   cursor: pointer;
   display: flex;
   font-family: inherit;
-  font-size: 1.3rem;
+  font-size: 1rem;
   margin: 0;
   padding: 5px 15px;
   text-decoration: none;
@@ -608,6 +611,10 @@
   .task-dropdown__launcher:focus,
   .task-dropdown__launcher:hover {
     background-color: rgba(117, 114, 121, 0.3);
+  }
+
+  .task-dropdown__btn {
+    font-size: 1.3rem;
   }
 
   .task-dropdown__svg {

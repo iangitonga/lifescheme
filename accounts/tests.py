@@ -292,7 +292,10 @@ class UserRegistrationViewTest(test.TestCase):
             'password': VALID_PASSWORD,
             'timezone': 'UTC',
         }
-        response = self.client.post(self.path_name, form_data)
+        with self.settings(
+                EMAIL_BACKEND='django.core.mail.backends.console.EmailBackend',
+        ):
+            response = self.client.post(self.path_name, form_data)
         self.assertEqual(response.status_code, 302)
         user = auth_models.User.objects.get(username=form_data['username'])
         self.assertEqual(user.email, form_data['email'])

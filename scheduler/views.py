@@ -9,10 +9,10 @@ class BaseView(django_views.View):
     """This class is the views base class from which all other views should be derived.
 
     This class provides general methods that are typically needed in a view.
-    Also the GET and POST methods will, by default, return 403(forbidden)
-    error. This will ensure that if a class inherits from this one and does
-    not override GET or POST methods, If a request is made, a forbidden error
-    will be returned to the client.
+    Also the GET and POST methods will, by default, return 404 error. This
+    will ensure that if a class inherits from this one and does not override
+    GET or POST methods, If a request is made, a forbidden error will be
+    returned to the client.
 
     Notes:
         This class is not meant to be instantiated.
@@ -28,7 +28,7 @@ class BaseView(django_views.View):
             A HttpResponse or HttpResponse subclass instance with the
              appropriate data.
         """
-        return http.HttpResponseForbidden()
+        raise http.Http404
 
     def post(self, request, *args, **kwargs):
         """Processes HTTP POST requests.
@@ -40,7 +40,7 @@ class BaseView(django_views.View):
             A HttpResponse or HttpResponse subclass instance with the
             appropriate data.
         """
-        return http.HttpResponseForbidden()
+        raise http.Http404
 
 
 class HomepageView(BaseView):

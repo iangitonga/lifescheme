@@ -1,16 +1,14 @@
-import React, {Fragment} from 'react';
+import React from 'react';
 import './App.css';
 import TaskTable from "./components/TaskTable";
 
 
 function App() {
-  return (
-    <Fragment>
-        {/*<div className="main-container">*/}
+    return (
+        <div className="content">
             <TaskTable/>
-        {/*</div>*/}
-    </Fragment>
-  );
+        </div>
+    );
 }
 
 export default App;

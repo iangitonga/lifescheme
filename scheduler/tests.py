@@ -499,23 +499,23 @@ class BaseViewTest(test.TestCase):
     The `views.BaseView` class is meant as base class for other views.
     However, it has it own specification of its methods.
     The following test cases are implemented:
-        - The get method returns HttpResponseForbidden(403) response.
-        - The post method returns HttpResponseForbidden(403) response.
+        - The get method returns HttpNotFound(403) response.
+        - The post method returns HttpNotFound(404) response.
     """
 
-    def test_get_returns_response_forbidden(self):
+    def test_get_returns_404_response(self):
         request = test.RequestFactory().get('/')
         view = scheduler_views.BaseView()
         view.setup(request)
-        response = view.get(request)
-        self.assertIsInstance(response, http.HttpResponseForbidden)
+        with self.assertRaises(http.Http404):
+            view.get(request)
 
-    def test_post_returns_response_forbidden(self):
+    def test_post_returns_404_response(self):
         request = test.RequestFactory().post('/')
         view = scheduler_views.BaseView()
         view.setup(request)
-        response = view.post(request)
-        self.assertIsInstance(response, http.HttpResponseForbidden)
+        with self.assertRaises(http.Http404):
+            view.post(request)
 
 
 class TaskCreationViewTest(test.TestCase):
@@ -537,13 +537,6 @@ class TaskCreationViewTest(test.TestCase):
         self.client.login(username=user.username, password='ateadick6969')
         user.dayschedules.create(date=user.profile.datetime.date())
         return user
-
-    def test_non_ajax_post_response(self):
-        form_data = {
-            'start_time': datetime.time(7, 0), 'end_time': datetime.time(8, 0), 'task_desc': 'Test task'
-        }
-        response = self.client.post(path=self.path, data=form_data)
-        self.assertEqual(403, response.status_code)
 
     def test_post_request_valid_form(self):
         user = self.login_user()
@@ -683,15 +676,6 @@ class TaskUpdateViewTest(test.TestCase):
         self.client.login(username=user.username, password='ateadick6969')
         user.dayschedules.create(date=user.profile.datetime.date())
         return user
-
-    def test_non_ajax_post_response(self):
-        form_data = {
-            'start_time': datetime.time(7, 0),
-            'end_time': datetime.time(8, 0),
-            'task_desc': 'Test task',
-        }
-        response = self.client.post(path=self.path, data=form_data)
-        self.assertEqual(403, response.status_code)
 
     def test_post_request_valid_form(self):
         user = self.login_user()
@@ -879,13 +863,6 @@ class TaskDeleteViewTest(test.TestCase):
         user.dayschedules.create(date=user.profile.datetime.date())
         return user
 
-    def test_non_ajax_post_response(self):
-        form_data = {
-            'task_id': 0,
-        }
-        response = self.client.post(path=self.path, data=form_data)
-        self.assertEqual(403, response.status_code)
-
     def test_post_request_valid_form(self):
         user = self.login_user()
         task = user.dayschedules.current_schedule.tasks.create(
@@ -924,13 +901,6 @@ class TaskStatusUpdateViewTest(test.TestCase):
         self.client.login(username=user.username, password='ateadick6969')
         user.dayschedules.create(date=user.profile.datetime.date())
         return user
-
-    def test_non_ajax_post_response(self):
-        form_data = {
-            'task_id': 0,
-        }
-        response = self.client.post(path=self.path, data=form_data)
-        self.assertEqual(403, response.status_code)
 
     def test_post_request_valid_form(self):
         user = self.login_user()
@@ -972,13 +942,6 @@ class TasksViewTest(test.TestCase):
         self.client.login(username=user.username, password='ateadick6969')
         user.dayschedules.create(date=user.profile.datetime.date())
         return user
-
-    def test_non_ajax_post_response(self):
-        form_data = {
-            'task_id': 0,
-        }
-        response = self.client.post(path=self.path, data=form_data)
-        self.assertEqual(403, response.status_code)
 
     def test_tasks_retrieval(self):
         user = self.login_user()

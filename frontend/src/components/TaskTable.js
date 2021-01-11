@@ -40,7 +40,7 @@ export default class TaskTable extends React.Component {
                 isShown: false,
                 taskId: '',
                 taskName: '',
-            }
+            },
         };
         this.addNewTask = this.addNewTask.bind(this);
         this.launcherClickCbc = this.launcherClickCbc.bind(this);
@@ -51,11 +51,12 @@ export default class TaskTable extends React.Component {
         this.displayMessage = this.displayMessage.bind(this);
         this.launchTaskUpdateModal = this.launchTaskUpdateModal.bind(this);
         this.closeTaskDeleteFormModal = this.closeTaskDeleteFormModal.bind(this);
+        this._invertTaskStatus = this._invertTaskStatus.bind(this);
     }
 
     componentDidMount() {
         const addTasks = (data) => {
-            // TASKS: [{}, {}]
+            // Tasks format: [{}, {}]
             this.setState({
                 tasks: data.TASKS,
                 tasksAreLoaded: true,
@@ -71,14 +72,7 @@ export default class TaskTable extends React.Component {
                 tasksLoadingFailed: true,
             });
         };
-        post(
-            ENDPOINTS.TASKS_LIST_ENDPOINT,
-            {},
-            addTasks,
-            failure,
-            failure,
-            () => {},
-        )
+        post(ENDPOINTS.TASKS_LIST_ENDPOINT, {}, addTasks, failure, failure, null,)
     }
 
     taskSortCompareFn(task1, task2) {
@@ -109,7 +103,6 @@ export default class TaskTable extends React.Component {
         if (idx !== null) {
             const tasks = this.state.tasks;
             const targetTask = tasks[idx];
-            console.log(targetTask);
             targetTask.startTime = data.taskStartTime;
             targetTask.endTime = data.taskEndTime;
             targetTask.desc = data.taskDesc;
@@ -134,30 +127,42 @@ export default class TaskTable extends React.Component {
         });
     }
 
+    _invertTaskStatus(taskId) {
+        const idx = this.getTaskIdx(taskId);
+        if (idx !== null) {
+            const tasks = this.state.tasks;
+            const target = tasks.splice(idx, 1)[0];
+            target.completed = !target.completed;
+            tasks.push(target);
+            tasks.sort(this.taskSortCompareFn);
+            this.setState({
+                tasks: tasks,
+            });
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     updateTaskStatus(taskId) {
-        const successCallback = () => {
-            console.log(`TASKS: ${this.state.tasks[0]}`);
-            const idx = this.getTaskIdx(taskId);
-            if (idx !== null) {
-                const tasks = this.state.tasks;
-                const target = tasks.splice(idx, 1)[0];
-                target.completed = !target.completed;
-                tasks.push(target);
-                tasks.sort(this.taskSortCompareFn);
-                this.setState({
-                    tasks: tasks,
-                });
-            } else {
-                this.displayMessage(UNEXPECTED_ERROR_MESSAGE, false);
-            }
+        // To update a task status, we first check/uncheck the checkbox so that
+        // the user sees an instantaneous effect and if an error occurs later,
+        // we revert to the original status and display an error message.
+        if (!this._invertTaskStatus(taskId)) {
+            this.displayMessage(UNEXPECTED_ERROR_MESSAGE, false);
+            return;
+        }
+        const failureCallback = () => {
+            this._invertTaskStatus(taskId);
+            this.displayMessage(UNEXPECTED_ERROR_MESSAGE, false);
         };
         post(
             ENDPOINTS.TASK_STATUS_UPDATE_ENDPOINT,
             {'task_id': taskId},
-            successCallback,
-            () => {this.displayMessage(UNEXPECTED_ERROR_MESSAGE, false);},
-            () => {this.displayMessage(UNEXPECTED_ERROR_MESSAGE, false);},
-            () => {},
+            null,
+            failureCallback,
+            failureCallback,
+            null,
         );
     }
 

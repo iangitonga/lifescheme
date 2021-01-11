@@ -14,9 +14,12 @@ export default class TaskStatusCheckbox extends React.Component {
                 className="task-status-link"
                 type="submit"
                 onClick={this.props.taskStatusUpdateCbc}>
-                <svg xmlns="http://www.w3.org/2000/svg"
-                    className={`task-status-link__checkbox-svg ${this.props.checked ? 'task-status-link__checkbox-svg--checked' : ''}`}
-                     width="20" height="22" viewBox="0 0 24 24">
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className={`task-status-link__checkbox-svg
+                        ${this.props.checked ? 'task-status-link__checkbox-svg--checked' : ''}
+                    `}
+                    width="20" height="22" viewBox="0 0 24 24">
                     <path d={this.props.checked ? this.checkedP : this.uncheckedP}/>
                 </svg>
             </button>
