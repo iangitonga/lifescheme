@@ -1,4 +1,4 @@
-***This project is no longer being developed.***
+# This project is no longer being developed
 
 # lifescheme
 Lifescheme is a productivity web application created in Django that allows its users to manage their time
