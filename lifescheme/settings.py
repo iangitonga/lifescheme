@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 import os
 from pathlib import Path
 
-import django_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,16 +21,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('LIFESCHEME_SECRET_KEY')
+SECRET_KEY = "w=2j0*(4+b_g$db#fuq*i%@-)7#pg$=nctw+!%uxj9i-eb)uge"
+DEBUG = True
 
 # In a development environment, an environment variable with the name
 # 'LIFESCHEME_DEV_ENV' should be set to any value so that the boolean evaluates
 # to `True`. However, in a production environment, the environment variable
 # should not be set.
-DEBUG = bool(os.environ.get('LIFESCHEME_DEV_ENV'))
-SECURE_SSL_REDIRECT = not DEBUG
+# DEBUG = bool(os.environ.get('LIFESCHEME_DEV_ENV'))
+SECURE_SSL_REDIRECT = False
 
-ALLOWED_HOSTS = ['lifescheme.herokuapp.com']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -146,5 +146,3 @@ EMAIL_USE_TLS = True
 EMAIL_TIMEOUT = 60  # time in secs
 EMAIL_HOST_USER = DEFAULT_FROM_MAIL
 EMAIL_HOST_PASSWORD = os.environ.get('LIFESCHEME_EMAIL_HOST_PASSWORD')
-
-django_heroku.settings(locals())
