@@ -1,3 +1,5 @@
+***This project is no longer being developed.***
+
 # lifescheme
 Lifescheme is a productivity web application created in Django that allows its users to manage their time
 by scheduling tasks using time-blocking technique.
